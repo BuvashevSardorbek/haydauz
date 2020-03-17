@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Qabul qilingan byurtmalar</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+</head>
+
+<body>
+
+        <div class="container">
+                <h2>TEST</h2>
+
+                <a href="/test" class="btn btn-info">
+                    Bosh saxifa
+                </a>
+                <a href="/haydovchi" class="btn btn-success">
+                    Haydovchilar(Jami) <span class="badge badge-danger">2</span> 
+                </a>
+                <a href="/haydovchiBand" class="btn btn-warning">
+                    Haydovchilar(Band) <span class="badge badge-danger">2</span> 
+                </a>
+            </div>
+            <br>
+
+        <div class="container">
+                <div class="row">
+                    <div class="col ">
+                            <table class="table table-bordered table-hover" id="mytable">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col"  class="table-success">F.I.SH</th>
+                                        <th scope="col"  class="table-success">Telefon</th>
+                                        <th scope="col"  class="table-success">Manzil</th>
+                                        <th scope="col"  class="table-success">Buyurtma vaqti</th>
+                                        <th scope="col" class="table-dark">Haydovchi(F.I.SH)</th>
+                                        <th scope="col"  class="table-dark">Telefon</th>
+                                        <th scope="col" class="table-dark">Mashina</th>
+                                        <th scope="col" class="table-danger">O'chirish</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% let i = 1 %> 
+                                        <% zakazlar.forEach( (zakaz) => { %>
+                                      <tr>
+                                        <th scope="row"><%= i %> </th>
+                                        <td><%= zakaz.first_name%> <%= zakaz.last_name %>  </td>
+                                        <td><%= zakaz.phone %> </td>
+                                        <td><%= zakaz.adress %> </td>
+                                        <td><%= zakaz.data %> </td>
+                                        <td> test test </td>
+                                        <td> 936439414</td>
+                                        <td> 60F414SA</td>
+                                        <td><a href="javascript:void(0);"  class="btn btn-danger delete" data-id = "<%=zakaz.id  %> " >O'chirish</a></td>
+                                      </tr>
+                                      <% i++}) %>
+                                    </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>

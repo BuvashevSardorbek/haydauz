@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test rejimida</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+
+</head>
+<body>
+    
+    <div class="container">
+        <h2>TEST</h2>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Mijoz qo'shish <strong>+</strong>
+        </button>
+        <a href="/briktirilgan" class="btn btn-info">
+            Briktirilgan(Mijozlar) <span class="badge badge-danger">3</span>
+        </a>
+        <a href="/haydovchi" class="btn btn-success">
+            Haydovchilar(Jami) <span class="badge badge-danger">2</span> 
+        </a>
+        <a href="/haydovchiBand" class="btn btn-warning">
+            Haydovchilar(Band) <span class="badge badge-danger">2</span> 
+        </a>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col ">
+                    <table class="table table-bordered table-hover" id="mytable">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">F.I.SH</th>
+                                <th scope="col">Telefon</th>
+                                <th scope="col">Manzil</th>
+                                <th scope="col">Buyurtma vaqti</th>
+                                <th scope="col">Briktirish</th>
+                                <th scope="col">O'chirish</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% let i = 1 %> 
+                                <% mijozlar.forEach( (mijoz) => { %>
+                              <tr>
+                                <th scope="row"><%= i %> </th>
+                                <td><%= mijoz.first_name%> <%= mijoz.last_name %>  </td>
+                                <td><%= mijoz.phone %> </td>
+                                <td><%= mijoz.adress %> </td>
+                                <td><%= mijoz.data  %> </td>
+                                <td><a href="javascript:void(0);" class="btn btn-primary edit" id="briktir" data-id="<%=mijoz.id  %>"
+                                    data-first_name="<%=mijoz.first_name %>" data-last_name="<%=mijoz.last_name  %>" data-adress="<%=mijoz.adress  %>" data-phone="<%=mijoz.phone  %>" data-dataTime="<%=mijoz.data  %>">Briktirish</a></td>
+                                <td><a href="javascript:void(0);"  class="btn btn-danger delete" data-id = "<%=mijoz.id  %> " >O'chirish</a></td>
+                              </tr>
+                              <% i++}) %>
+                            </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+<!-- qo'shish -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yangi mijoz qo'shish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/mijoz" method="POST">  
+                <div class="modal-body">
+                   
+                    <div class="row">
+                        <div class="col">
+                            <label for="recipient-name" class="col-form-label">Ismi:</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name">
+                        </div>
+                        <div class="col">
+                            <label for="recipient-name" class="col-form-label">Familiyasi:</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Telefon raqam:</label>
+                                <input type="text" class="form-control" id="phone" placeholder="931234567" name="phone">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Byurtma vaqti:</label>
+                                <input type="datetime" class="form-control" id="datatime" name="datatime">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Manzil(to'liq malumot kritilsin):</label>
+                            <textarea class="form-control" id="adress" name="adress"></textarea>
+                        </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+<!-- qo'shish end -->
+
+<!-- briktirish -->
+<form id="add-row-form" action="/briktir" method="POST">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mijozga Haydovchi briktirish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <strong>Ism:</strong> <label for="recipient-name"
+                                    class="col-form-label firstName"></label><br>
+                                <strong>Familiya:</strong> <label for="recipient-name"
+                                    class="col-form-label lastName"></label><br>
+                                <strong>Telefon:</strong> +998<label for="recipient-name"
+                                    class="col-form-label phone"></label><br>
+                                <strong>Manzil:</strong> <label for="recipient-name"
+                                    class="col-form-label adress"></label><br>
+                                <strong>Vaqt:</strong> <label for="recipient-name"
+                                    class="col-form-label datatime"></label><br>
+                                ----------------------------------------------------------------------------------------------
+
+                                <!-- <input type="hidden" name="test" value="1221"> -->
+                                <div class="form-group">
+                                    <label class="selet1">Haydovchi tanlang</label>
+                                    <select class="form-control" id="selct1" name="carId">
+                                        <option id="ajaxdata">Tanlang...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="id" class="id">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- briktirish end -->
+
+<!-- ochirish-->
+<form id="add-row-form" action="/delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Mijozni o'chirib yuborish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Siz ushbu Mijozni o'chirib yubormoqchimisiz?</strong><br>
+                    <em>Qayta tiklash imkoniyati mavjud emas!</em>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="id" class="form-control id2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Yo'q</button>
+                    <button type="submit" class="btn btn-success">Ha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+    <script src="js/bootstrap-datetimepicker.ru.js" charset="UTF-8"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+
+    <script>
+    
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) 
+            var modal = $(this)
+            modal.find('.modal-body input').val()
+        });
+
+        $('#exampleModal1').on('show.bs.modal1', function (event) {
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            modal.find('.modal-body input').val()
+        });
+
+        $(document).ready(function(){        
+            $('#mytable').on('click', '.delete', function () {
+                var id = $(this).data('id');
+                $('#DeleteModal').modal('show');
+                $('.id2').val(id);
+            });
+
+            $('#mytable').on('click', '.edit', function () {
+                var id = $(this).data('id');
+                var first_name = $(this).data('first_name');    
+                var last_name = $(this).data('last_name');
+                var phone = $(this).data('phone');
+                var adress = $(this).data('adress');
+                var datatime = $(this).data('datatime');
+                var d = Date.parse(datatime)
+                $('#EditModal').modal('show');
+                $('.firstName').text(first_name);
+                $('.lastName').text(last_name);
+                $('.phone').text(phone);
+                $('.adress').text(adress);
+                $('.datatime').text();
+                $('.id').val(id);
+            });
+            $('#mytable').on('click', '.edit', function () {
+            $('#EditModal').modal('show');
+            $.ajax({
+                url: "/hydas",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    nb1: '0'
+                },
+                success: function(json) {
+    
+                    // $('#ajaxData').empty();
+                    for(var i = 0; i< json.length;i++){
+                        console.log(json[i]);
+                    $('.modal-body select').append('<option value = '+json[i]['id'] +' >'+json[i]['carNumber']+'</option>')
+                    }
+                    $('#EditModal').modal('show');
+                },
+
+                error: function(err) {
+                    console.log(err);
+                    
+                    }   
+                });
+        });
+        });
+        
+    </script>
+</body>
+</html>
